@@ -1,78 +1,78 @@
 from pprint import pprint
 
-## Sonidos animales
-# Rana: brr, birip, brrah, croac
-# Libélula: fiu, plop, pep
-# Grillo: cric-cric, trri-trri, bri-bri
+## Animals sounds
+# frog: brr, birip, brrah, croac
+# dragon-fly: fiu, plop, pep
+# cricket: cric-cric, trri-trri, bri-bri
 
-## Canciones
+## Songs
 # brr, fiu, cric-cric, brrah
 # pep, birip, trri-trri, croac
 # bri-bri, plop, cric-cric, brrah
 
-def crear_diccionario_sonidos(sonidos: list, num_canciones: int):
-    sonidosD = {}
-    for _sonido in sonidos:
-        sonidosD[_sonido] = [ -1 for i in range(num_canciones) ]
-    return sonidosD
+def create_sounds_dictionary(sounds: list, songs: int):
+    soundsD = {}
+    for _sound in sounds:
+        soundsD[_sound] = [ -1 for i in range(songs) ]
+    return soundsD
 
-def crear_secuencia_musical(sonidosD: dict, canciones: list):
-    for i in range(len(canciones)):
-        _cancion = canciones[i]
-        for idx in range(len(_cancion)):
-            _sonido_cancion = _cancion[idx]
-            sonidosD[_sonido_cancion][i] = idx
+def generate_music_sequence(soundsD: dict, songs: list):
+    for i in range(len(songs)):
+        _song = songs[i]
+        for idx in range(len(_song)):
+            _sound_song = _song[idx]
+            soundsD[_sound_song][i] = idx
 
-def obtener_secuencia(sonidosD: dict, canciones: list, sonido: str):
-    indices = sonidosD.get(sonido, None)
+def get_sequence(soundsD: dict, songs: list, sound: str):
+    indices = soundsD.get(sound, None)
     if not indices:
         raise Exception("No existe una cancion que tenga ese sonido")
 
-    idx_cancion = -1
-    idx_sonido_en_cancion = -1
+    idx_song = -1
+    idx_sound_in_song = -1
 
     for i in range(len(indices)):
         if indices[i] != -1:
-            idx_cancion = i
-            idx_sonido_en_cancion = indices[i]
+            idx_song = i
+            idx_sound_in_song = indices[i]
     
-    if idx_cancion == -1 or idx_sonido_en_cancion == -1:
+    if idx_song == -1 or idx_sound_in_song == -1:
         raise Exception("Ese sonido no pertenece a ninguna cancion")
     
-    cancion_reprod = canciones[idx_cancion]
-    if idx_sonido_en_cancion >= len(cancion_reprod)-1:
+    sound_reproduction = songs[idx_song]
+    if idx_sound_in_song >= len(sound_reproduction)-1:
         return []
-    return cancion_reprod[idx_sonido_en_cancion+1:]
+    return sound_reproduction[idx_sound_in_song+1:]
 
-# Programa principal
+# Main program
 
 def main():
-    # Sonidos
-    rana = ['brr', 'birip', 'brrah', 'croac']
-    libelula = ['fiu', 'plop', 'pep']
-    grillo = ['cric-cric', 'trri-trri', 'bri-bri']
+    # Sounds
+    frog = ['brr', 'birip', 'brrah', 'croac']
+    dragon_fly = ['fiu', 'plop', 'pep']
+    cricket = ['cric-cric', 'trri-trri', 'bri-bri']
     
-    # Canciones
-    cancion1 = ['brr', 'fiu', 'cric-cric', 'brrah']
-    cancion2 = ['pep', 'birip', 'trri-trri', 'croac']
-    cancion3 = ['bri-bri', 'plop', 'cric-cric', 'brrah']
+    # Songs
+    song1 = ['brr', 'fiu', 'cric-cric', 'brrah']
+    song2 = ['pep', 'birip', 'trri-trri', 'croac']
+    song3 = ['bri-bri', 'plop', 'cric-cric', 'brrah']
 
-    canciones = [cancion1, cancion2, cancion3]
-    sonidos = rana+libelula+grillo
+    songs = [song1, song2, song3]
+    sounds = frog+dragon_fly+cricket
 
-    D = crear_diccionario_sonidos(sonidos, len(canciones))
-    crear_secuencia_musical(D, canciones)
-    pprint(D)
+    D = create_sounds_dictionary(sounds, len(songs))
+    generate_music_sequence(D, songs)
+    # pprint(D)
 
-    sonido_usuario = input('Ingrese un sonido: ')
+    user_sound = input('Ingrese un sonido: ')
 
     try:
-        secuencia = obtener_secuencia(D, canciones, sonido_usuario)
-        if len(secuencia) < 1:
+        sequence = get_sequence(D, songs, user_sound)
+        if len(sequence) < 1:
             print('...')
             return
             
-        print(', '.join(secuencia))
+        print(', '.join(sequence))
     except Exception as e:
         print(e)
 
